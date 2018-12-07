@@ -59,9 +59,6 @@ public class Match {
         this.score = score;
     }
 
-    @Override
-    public String toString() {
-        return score.getOutcome();
-    }
+
 
 }

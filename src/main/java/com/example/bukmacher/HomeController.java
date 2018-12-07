@@ -40,8 +40,9 @@ private ScoreRepository scoreRepository;
             case CHECK_SCORE:
                 lista = matchRepository.findAll();
                 for (Match match1 : lista) {
+                    match1.setScore(scoreRepository.findById(1L).get());
+                matchRepository.save(match1);
                 }
-                model.addAttribute("list", lista);
                 return "list";
             case TO_BE_DECIDED_MATCHES:
                 break;
