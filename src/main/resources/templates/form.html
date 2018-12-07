@@ -12,7 +12,7 @@ body{
 </style>
 </head>
 <body >
-<div class="container">
+<div class="mx-auto" style="width: 400px;">
 <div class="container">
     <form th:object="${newMatch}" th:action="@{/dodaj?action=ADD_MATCH}" method="post">
         <div class="form-group">
@@ -25,7 +25,7 @@ body{
         <div class="form-group">
             <input type="text" class="form-control" th:field="*{date}" name="data" placeholder="Data">
         </div>
-        <button type="submit"  class="btn btn-primary">Submit</button>
+        <button type="submit"  class="btn btn-primary">Dodaj</button>
     </form>
 </div>
 </div>

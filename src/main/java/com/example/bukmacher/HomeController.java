@@ -8,19 +8,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class HomeController {
 
     private MatchRepository matchRepository;
+private ScoreRepository scoreRepository;
 
-    public HomeController(MatchRepository matchRepository) {
+    public HomeController(MatchRepository matchRepository, ScoreRepository scoreRepository) {
         this.matchRepository = matchRepository;
+        this.scoreRepository = scoreRepository;
     }
 
     @GetMapping("/")
-    public String home(Model model,
-                       @RequestParam(required = false, defaultValue = "HOME") Action action) {
+    public String home(Model model, @RequestParam(required = false, defaultValue = "HOME") Action action) {
         List<Match> lista;
         switch (action) {
             case NEW_MATCH:
@@ -36,7 +38,11 @@ public class HomeController {
             case REMOVE_MATCH:
                 break;
             case CHECK_SCORE:
-                break;
+                lista = matchRepository.findAll();
+                for (Match match1 : lista) {
+                }
+                model.addAttribute("list", lista);
+                return "list";
             case TO_BE_DECIDED_MATCHES:
                 break;
             case HOME:

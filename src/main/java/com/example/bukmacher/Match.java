@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Entity
 public class Match {
@@ -57,4 +58,10 @@ public class Match {
     public void setScore(Score score) {
         this.score = score;
     }
+
+    @Override
+    public String toString() {
+        return score.getOutcome();
+    }
+
 }
