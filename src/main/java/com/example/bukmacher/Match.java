@@ -4,7 +4,7 @@ package com.example.bukmacher;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 public class Match {
@@ -13,8 +13,8 @@ public class Match {
     private Long id;
     private String gospodarze;
     private String goscie;
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime dateTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate date;
     @ManyToOne
     private Score score;
 
@@ -42,12 +42,12 @@ public class Match {
         this.goscie = goscie;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public Score getScore() {
