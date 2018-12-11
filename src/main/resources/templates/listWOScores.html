@@ -14,6 +14,7 @@
 <body>
 
 <div class="container" th:width="400">
+   <a th:href="@{/?action=PLACE_BET}" class="btn btn-primary">Zakłady</a>
     <table class="table table-hover table-dark">
         <thead>
         <tr>
@@ -22,19 +23,19 @@
             <th scope="col">GOSCIE</th>
             <th scope="col">DATA</th>
             <th scope="col">
-                <button class="btn btn-primary" type="button" th:href="@{/?action=CHECK_SCORE}">
+                <a th:href="@{/?action=CHECK_SCORE}" th:text="WYNIK">
                     WYNIK
-                </button>
+                </a>
             </th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="match:${list}">
+        <tr th:each="match:${listWO}">
             <th scope="row" th:text="${match.id}">1</th>
             <th scope="row" th:text="${match.gospodarze}">2</th>
             <th scope="row" th:text="${match.goscie}">3</th>
             <th scope="row" th:text="${match.date}">4</th>
-            <th scope="row" th:text="${match}">5</th>
+            <th scope="row" th:text="--"></th>
         </tr>
         </tbody>
     </table>

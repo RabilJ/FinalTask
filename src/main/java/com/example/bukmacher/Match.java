@@ -5,7 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Optional;
+
 
 @Entity
 public class Match {
@@ -16,8 +16,7 @@ public class Match {
     private String goscie;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
-    @ManyToOne
-    private Score score;
+    private String outcome;
 
     public Long getId() {
         return id;
@@ -51,17 +50,17 @@ public class Match {
         this.date = date;
     }
 
-    public Score getScore() {
-        return score;
+
+    public String getOutcome() {
+        return outcome;
     }
 
-    public void setScore(Score score) {
-        this.score = score;
+    public void setOutcome(String outcome) {
+        this.outcome = outcome;
     }
 
     @Override
     public String toString() {
-        return score.getOutcome();
+        return id+". "+gospodarze+"-"+goscie+" "+date;
     }
-
 }

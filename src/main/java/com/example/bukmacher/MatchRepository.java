@@ -12,10 +12,13 @@ import java.util.List;
 
 
 @Repository
-public interface MatchRepository extends JpaRepository<Match,Long> {
+public interface MatchRepository extends JpaRepository<Match, Long> {
 
 
+    List<Match> findAll();
 
-    List<Match>findAll();
+    Match findByIdAndOutcome(Long id, String outcome);
 
+    @Query(value = "select m from Match m where m.outcome is not null")
+    List<Match> findIfOutcomeIsNotNull();
 }
