@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Entity
@@ -17,7 +18,8 @@ public class Match {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
     private String outcome;
-
+@OneToMany(mappedBy = "match")
+    List<Bet>bets;
     public Long getId() {
         return id;
     }
@@ -57,6 +59,14 @@ public class Match {
 
     public void setOutcome(String outcome) {
         this.outcome = outcome;
+    }
+
+    public List<Bet> getBets() {
+        return bets;
+    }
+
+    public void setBets(List<Bet> bets) {
+        this.bets = bets;
     }
 
     @Override

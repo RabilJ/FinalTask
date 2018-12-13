@@ -19,6 +19,6 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
 
     Match findByIdAndOutcome(Long id, String outcome);
 
-    @Query(value = "select m from Match m where m.outcome is not null")
-    List<Match> findIfOutcomeIsNotNull();
+    @Query(value = "select m from Match m where m.outcome is null")
+    List<Match> findIfOutcomeIsNull();
 }

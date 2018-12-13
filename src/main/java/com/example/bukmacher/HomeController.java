@@ -18,14 +18,17 @@ import java.util.Optional;
 public class HomeController {
 
     private MatchRepository matchRepository;
+private BetRepository betRepository;
 
-    public HomeController(MatchRepository matchRepository) {
+    public HomeController(MatchRepository matchRepository, BetRepository betRepository) {
         this.matchRepository = matchRepository;
+        this.betRepository = betRepository;
     }
 
     @GetMapping("/")
     public String home(Model model, @RequestParam(required = false, defaultValue = "HOME") Action action) {
         List<Match> lista;
+        List<Bet> listaZakladow;
         List<String> scoreList = Arrays.asList("Wygrana gospodarzy", "Wygrana gości", "Remis");
         switch (action) {
             case NEW_MATCH:
@@ -48,12 +51,29 @@ public class HomeController {
                 model.addAttribute("listToEdit", lista);
                 return "matchEditForm";
             case PLACE_BET:
-                Match matchToBet = new Match();
-                List<Match> listaWOutcome = matchRepository.findIfOutcomeIsNotNull();
+                List<Match> listaWOutcome = matchRepository.findIfOutcomeIsNull();
                 model.addAttribute("scoreList", scoreList);
                 model.addAttribute("listToBet", listaWOutcome);
-                model.addAttribute("matchToBet", matchToBet);
                 return "betForm";
+
+            case ALL_BETS:
+                listaZakladow = betRepository.findAll();
+                lista = matchRepository.findAll();
+                for (Bet bet : listaZakladow) {
+                    for (Match match1 : lista) {
+                        if (match1.getOutcome() != null) {
+                            if (bet.getOutcome().equals(match1.getOutcome())) {
+                                bet.setActualOutcome("Wygrana!!!! "+bet.getMoney()*3);
+                                betRepository.save(bet);
+                            } else {
+                                bet.setActualOutcome("Przegrana..");
+                                betRepository.save(bet);
+                            }
+                        }
+                    }
+                }
+                model.addAttribute("betList",listaZakladow);
+                return "betList";
             case HOME:
                 break;
         }
@@ -61,7 +81,8 @@ public class HomeController {
     }
 
     @PostMapping("/edit")
-    String dodaj(Model model, Match match, @RequestParam(required = false, defaultValue = "HOME") Action action, HttpServletResponse response, Integer thisbet) throws IOException {
+    String edit(Match match, @RequestParam(required = false, defaultValue = "HOME") Action action, @RequestParam(required = false)Long matchID,
+                 @RequestParam(required = false) String score, @RequestParam(required = false) Integer betMoney){
 
         switch (action) {
             case ADD_MATCH:
@@ -85,17 +106,15 @@ public class HomeController {
                     System.out.println("Mecz został poprawnie usunięty");
                 }
                 return "redirect:/";
-            case CHECK_BET:
-                Optional<Match> matchForBet = matchRepository.findById(match.getId());
-                if (matchForBet.isPresent()) {
-                    Match matchCheck = matchForBet.get();
-                    if (matchCheck.equals(matchRepository.findByIdAndOutcome(match.getId(), match.getOutcome()))) {
-                        return "redirect:/successBet";
-                    } else {
-                        return "redirect:/failedBet";
-                    }
+            case SAVE_BET:
+                Bet bet = new Bet();
+                bet.setMoney(betMoney);
+                bet.setOutcome(score);
+                if(matchRepository.findById(matchID).isPresent())
+                    bet.setMatch(matchRepository.findById(matchID).get());
+                betRepository.save(bet);
+                return "redirect:/";
 
-                }
         }
         return "redirect:/";
     }

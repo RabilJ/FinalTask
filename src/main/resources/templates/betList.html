@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <style>
+        body{
+            background: dimgrey;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" th:width="400">
+    <a th:href="@{/?action=HOME}" class="btn btn-primary">Strona główna</a>
+    <table class="table table-hover table-dark">
+        <thead>
+        <tr>
+            <th scope="col">ID ZAKŁADU</th>
+            <th scope="col">MECZ</th>
+            <th scope="col">OBSTAWIONY WYNIK</th>
+            <th scope="col">PIENIĄŻKI</th>
+            <th scope="col">STATUS</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="bet:${betList}">
+            <th scope="row" th:text="${bet.id}">1</th>
+            <th scope="row" th:text="${bet.match}">2</th>
+            <th scope="row" th:text="${bet.outcome}">3</th>
+            <th scope="row" th:text="${bet.money}">4</th>
+            <th scope="row" th:if="${bet.actualOutcome!=null}"><a th:text="${bet.actualOutcome}"></a> </th>
+            <th scope="row" th:if="${bet.actualOutcome==null}">
+                <a th:text="|Mecz nierozstrzygnięty|">--</a>
+            </th>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>
