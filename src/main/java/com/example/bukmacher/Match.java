@@ -1,6 +1,7 @@
 package com.example.bukmacher;
 
 
+import org.springframework.core.annotation.Order;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -19,7 +20,8 @@ public class Match {
     private LocalDate date;
     private String outcome;
 @OneToMany(mappedBy = "match")
-    List<Bet>bets;
+private  List<Bet>bets;
+
     public Long getId() {
         return id;
     }

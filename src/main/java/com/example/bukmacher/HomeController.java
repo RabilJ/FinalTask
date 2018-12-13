@@ -7,18 +7,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class HomeController {
-
     private MatchRepository matchRepository;
-private BetRepository betRepository;
+    private BetRepository betRepository;
 
     public HomeController(MatchRepository matchRepository, BetRepository betRepository) {
         this.matchRepository = matchRepository;
@@ -63,7 +57,7 @@ private BetRepository betRepository;
                     for (Match match1 : lista) {
                         if (match1.getOutcome() != null) {
                             if (bet.getOutcome().equals(match1.getOutcome())) {
-                                bet.setActualOutcome("Wygrana!!!! "+bet.getMoney()*3);
+                                bet.setActualOutcome("Wygrana!!!! " + bet.getMoney() * 3 + "zł");
                                 betRepository.save(bet);
                             } else {
                                 bet.setActualOutcome("Przegrana..");
@@ -72,7 +66,9 @@ private BetRepository betRepository;
                         }
                     }
                 }
-                model.addAttribute("betList",listaZakladow);
+                 betRepository.orderByNumberOfBets();
+                listaZakladow = betRepository.orderByNumberOfBets();
+                model.addAttribute("betList", listaZakladow);
                 return "betList";
             case HOME:
                 break;
@@ -81,13 +77,17 @@ private BetRepository betRepository;
     }
 
     @PostMapping("/edit")
-    String edit(Match match, @RequestParam(required = false, defaultValue = "HOME") Action action, @RequestParam(required = false)Long matchID,
-                 @RequestParam(required = false) String score, @RequestParam(required = false) Integer betMoney){
+    String edit(Match match, @RequestParam(required = false, defaultValue = "HOME") Action action, @RequestParam(required = false, defaultValue = "1") Long matchID,
+                @RequestParam(required = false, defaultValue = "Wygrana gospodarzy") String score, @RequestParam(required = false, defaultValue = "100") Integer betMoney) {
 
         switch (action) {
             case ADD_MATCH:
-                matchRepository.save(match);
-                System.out.println("Mecz został dodany do naszej bazy");
+                if (match.getDate() != null && match.getGospodarze() != null && match.getGoscie() != null) {
+                    matchRepository.save(match);
+                    System.out.println("Mecz został dodany do naszej bazy");
+                } else {
+                    System.out.println("Nie udało się dodać meczu do bazy");
+                }
                 return "redirect:/";
             case SAVE_SCORE:
                 Optional<Match> matchOptional = matchRepository.findById(match.getId());
@@ -108,12 +108,17 @@ private BetRepository betRepository;
                 return "redirect:/";
             case SAVE_BET:
                 Bet bet = new Bet();
-                bet.setMoney(betMoney);
-                bet.setOutcome(score);
-                if(matchRepository.findById(matchID).isPresent())
-                    bet.setMatch(matchRepository.findById(matchID).get());
-                betRepository.save(bet);
-                return "redirect:/";
+                if (betMoney!= null &&score!= null) {
+                    bet.setMoney(betMoney);
+                    bet.setOutcome(score);
+                    if (matchRepository.findById(matchID).isPresent())
+                        bet.setMatch(matchRepository.findById(matchID).get());
+                    betRepository.save(bet);
+                    System.out.println("Zakład w bazie");
+                }else{
+                    System.out.println("Nie udało się zapisać zakładu");
+                }
+                    return "redirect:/";
 
         }
         return "redirect:/";

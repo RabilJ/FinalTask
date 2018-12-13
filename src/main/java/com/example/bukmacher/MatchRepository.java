@@ -15,10 +15,8 @@ import java.util.List;
 public interface MatchRepository extends JpaRepository<Match, Long> {
 
 
-    List<Match> findAll();
-
-    Match findByIdAndOutcome(Long id, String outcome);
 
     @Query(value = "select m from Match m where m.outcome is null")
     List<Match> findIfOutcomeIsNull();
+
 }

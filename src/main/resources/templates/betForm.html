@@ -15,13 +15,13 @@
 <div></div>
 <div></div>
 <div class="container">
-    <h1>WYBIERZ MECZ, KTÓRY CHCESZ EDYTOWAC</h1>
+    <h1>WYBIERZ MECZ, KTÓRY CHCESZ OBSTAWIC</h1>
 
     <form th:action="@{/edit?action=SAVE_BET}" id="bet" method="post">
         <b>Wybierz mecz</b>
         <label>
             <select name="matchID" form="bet" >
-                <option value="NULL" selected>Mecz....</option>
+                <option selected>Mecz....</option>
                 <option th:value="${match.id}" th:each="match:${listToBet}" th:text="${match}">
                 </option>
             </select>
@@ -29,13 +29,19 @@
         <b>Obstaw wynik</b>
         <label>
             <select name="score" form="bet">
-                <option value="NULL" selected>Wynik....</option>
+                <option selected>Wynik....</option>
                 <option th:each="score:${scoreList}" th:value="${score}" th:text="${score}">
                 </option>
             </select>
         </label>
         <label>
-            <input type="number" name="betMoney">
+            <select name="betMoney" form="bet">
+                <option selected>Ile chcesz obstawić...</option>
+                <option value="100" >100</option>
+                <option value="200" >200</option>
+                <option value="300" >300</option>
+                <option value="400" >400</option>
+            </select>
         </label>
         <button type="submit" class="btn btn-primary">Obstaw wynik</button>
     </form>
