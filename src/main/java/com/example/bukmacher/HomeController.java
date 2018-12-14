@@ -53,20 +53,23 @@ public class HomeController {
             case ALL_BETS:
                 listaZakladow = betRepository.findAll();
                 lista = matchRepository.findAll();
+                Optional<Match> match1;
+                Match match2;
                 for (Bet bet : listaZakladow) {
-                    for (Match match1 : lista) {
-                        if (match1.getOutcome() != null) {
-                            if (bet.getOutcome().equals(match1.getOutcome())) {
-                                bet.setActualOutcome("Wygrana!!!! " + bet.getMoney() * 3 + "zł");
+                    match1 = matchRepository.findById(bet.getMatch().getId());
+                    if (match1.isPresent()) {
+                        match2 = match1.get();
+                        if (match2.getOutcome() != null) {
+                            if (bet.getOutcome().equals(match2.getOutcome())) {
+                                bet.setActualOutcome("Wygrana!!! " + 3 * bet.getMoney());
                                 betRepository.save(bet);
-                            } else {
-                                bet.setActualOutcome("Przegrana..");
+                            } else if (!bet.getOutcome().equals(match2.getOutcome())) {
+                                bet.setActualOutcome("Przegrana... ");
                                 betRepository.save(bet);
                             }
                         }
                     }
                 }
-                 betRepository.orderByNumberOfBets();
                 listaZakladow = betRepository.orderByNumberOfBets();
                 model.addAttribute("betList", listaZakladow);
                 return "betList";
@@ -90,10 +93,10 @@ public class HomeController {
                 }
                 return "redirect:/";
             case SAVE_SCORE:
-                Optional<Match> matchOptional = matchRepository.findById(match.getId());
+                Optional<Match> matchOptional = matchRepository.findById(matchID);
                 if (matchOptional.isPresent()) {
                     Match matchReal = matchOptional.get();
-                    matchReal.setOutcome(match.getOutcome());
+                    matchReal.setOutcome(score);
                     matchRepository.save(matchReal);
                     System.out.println("Uaktualniono wynik meczu");
                     return "redirect:/";
@@ -108,17 +111,17 @@ public class HomeController {
                 return "redirect:/";
             case SAVE_BET:
                 Bet bet = new Bet();
-                if (betMoney!= null &&score!= null) {
+                if (betMoney != null && score != null) {
                     bet.setMoney(betMoney);
                     bet.setOutcome(score);
                     if (matchRepository.findById(matchID).isPresent())
                         bet.setMatch(matchRepository.findById(matchID).get());
                     betRepository.save(bet);
                     System.out.println("Zakład w bazie");
-                }else{
+                } else {
                     System.out.println("Nie udało się zapisać zakładu");
                 }
-                    return "redirect:/";
+                return "redirect:/";
 
         }
         return "redirect:/";

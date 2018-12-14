@@ -17,10 +17,10 @@
 <div class="container">
     <h1>WYBIERZ MECZ, KTÓRY CHCESZ EDYTOWAC</h1>
 
-    <form th:action="@{/edit?action=SAVE_SCORE}" id="edit" method="post" th:object="${matchToEdit}">
+    <form th:action="@{/edit?action=SAVE_SCORE}" id="edit" method="post">
         <b>Wybierz mecz</b>
         <label>
-            <select name="matchID" form="edit" th:field="*{id}">
+            <select name="matchID" form="edit" >
                 <option value="NULL" selected>Mecz....</option>
                 <option th:value="${match.id}" th:each="match:${listToEdit}" th:text="${match}">
                 </option>
@@ -28,7 +28,7 @@
         </label>
         <b>Dodaj wynik</b>
         <label>
-            <select name="score" form="edit" th:field="*{outcome}">
+            <select name="score" form="edit">
                 <option value="NULL" selected>Wynik....</option>
                 <option th:each="score:${scoreList}" th:value="${score}" th:text="${score}">
                 </option>
