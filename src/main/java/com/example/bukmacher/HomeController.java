@@ -38,8 +38,6 @@ public class HomeController {
                 model.addAttribute("listW", lista);
                 return "listWScores";
             case EDIT_MATCHES:
-                Match matchToEdit = new Match();
-                model.addAttribute("matchToEdit", matchToEdit);
                 lista = matchRepository.findAll();
                 model.addAttribute("scoreList", scoreList);
                 model.addAttribute("listToEdit", lista);
@@ -52,7 +50,6 @@ public class HomeController {
 
             case ALL_BETS:
                 listaZakladow = betRepository.findAll();
-                lista = matchRepository.findAll();
                 Optional<Match> match1;
                 Match match2;
                 for (Bet bet : listaZakladow) {
