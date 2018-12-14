@@ -39,10 +39,10 @@
     <br>
 
     <h1>WYBIERZ MECZ, KTÓRY CHCESZ USUNĄC</h1>
-    <form th:action="@{/edit?action=REMOVE_MATCH}" id="remove" method="post" th:object="${matchToEdit}">
+    <form th:action="@{/edit?action=REMOVE_MATCH}" id="remove" method="post">
         <b>Wybierz mecz</b>
         <label>
-            <select name="matchID" form="remove" th:field="*{id}">
+            <select name="matchID" form="remove">
                 <option value="NULL" selected>Mecz...</option>
                 <option th:each="match:${listToEdit}" th:value="${match.id}" th:text="${match}">
                 </option>

@@ -100,9 +100,8 @@ public class HomeController {
                 }
                 return "redirect:/";
             case REMOVE_MATCH:
-                Long id = match.getId();
-                if (matchRepository.findById(id).isPresent()) {
-                    matchRepository.deleteById(id);
+                if (matchRepository.findById(matchID).isPresent()) {
+                    matchRepository.deleteById(matchID);
                     System.out.println("Mecz został poprawnie usunięty");
                 }
                 return "redirect:/";
