@@ -5,25 +5,21 @@
     <title>Home</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <style>
-        body{
-            background: dimgrey;
-        }
-    </style>
+
 </head>
-<body>
+<body background="https://layout.eurosport.com/i/v8/match/backgrounds/large/background_v8_s22.jpg">
 
 <div class="container" th:width="400">
     <a th:href="@{/?action=EDIT_MATCHES}" class="btn btn-primary">Edytuj listę</a>
     <a th:href="@{/?action=HOME}" class="btn btn-primary">Strona główna</a>
     <table class="table table-hover table-dark">
-        <thead>
+        <thead class="thead-light">
         <tr>
-            <th scope="col">ID</th>
-            <th scope="col">GOSPODARZE</th>
-            <th scope="col">GOSCIE</th>
-            <th scope="col">DATA</th>
-            <th scope="col">
+            <th scope="col" style="margin: auto">ID</th>
+            <th scope="col" style="margin: auto">GOSPODARZE</th>
+            <th scope="col" style="margin: auto">GOSCIE</th>
+            <th scope="col" style="margin: auto">DATA</th>
+            <th scope="col" style="margin: auto">
                 <a th:href="@{/?action=ALL_MATCHES}" >
                     UKRYJ
                 </a>
@@ -32,12 +28,12 @@
         </thead>
         <tbody>
         <tr th:each="matchWS:${listW}">
-            <th scope="row" th:text="${matchWS.id}">1</th>
-            <th scope="row" th:text="${matchWS.gospodarze}">2</th>
-            <th scope="row" th:text="${matchWS.goscie}">3</th>
-            <th scope="row" th:text="${matchWS.date}">4</th>
-            <th scope="row" th:if="${matchWS.outcome!=null}"><a th:text="${matchWS.outcome}"></a> </th>
-            <th scope="row" th:if="${matchWS.outcome==null}">
+            <th scope="row" style="margin: auto" th:text="${matchWS.id}">1</th>
+            <th scope="row" style="margin: auto" th:text="${matchWS.gospodarze}">2</th>
+            <th scope="row" style="margin: auto" th:text="${matchWS.goscie}">3</th>
+            <th scope="row" style="margin: auto" th:text="${matchWS.date}">4</th>
+            <th scope="row" style="margin: auto" th:if="${matchWS.outcome!=null}"><a th:text="${matchWS.outcome}"></a> </th>
+            <th scope="row" style="margin: auto" th:if="${matchWS.outcome==null}">
                 <a th:text="--">--</a>
             </th>
         </tr>

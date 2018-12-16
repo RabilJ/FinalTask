@@ -5,53 +5,56 @@
     <title>Form</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <style>
-        body {
-            background: dimgrey;
-        }
-    </style>
+
 </head>
-<body>
-<div></div>
-<div></div>
-<div class="container">
-    <h1>WYBIERZ MECZ, KTÓRY CHCESZ EDYTOWAC</h1>
+<body background="https://layout.eurosport.com/i/v8/match/backgrounds/large/background_v8_s22.jpg">
 
+<div style="width: 500px;margin: auto">
+    <h4 style="color: aliceblue;">WYBIERZ MECZ, KTÓRY CHCESZ EDYTOWAC</h4>
     <form th:action="@{/edit?action=SAVE_SCORE}" id="edit" method="post">
-        <b>Wybierz mecz</b>
-        <label>
-            <select name="matchID" form="edit" >
-                <option value="NULL" selected>Mecz....</option>
-                <option th:value="${match.id}" th:each="match:${listToEdit}" th:text="${match}">
-                </option>
-            </select>
-        </label>
-        <b>Dodaj wynik</b>
-        <label>
-            <select name="score" form="edit">
-                <option value="NULL" selected>Wynik....</option>
-                <option th:each="score:${scoreList}" th:value="${score}" th:text="${score}">
-                </option>
-            </select>
-        </label>
-        <button type="submit" class="btn btn-primary">Dodaj wynik</button>
-    </form>
-    <br>
+        <div class="input-group mb-3" style="width: 500px;margin: auto">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect02">Wybierz</label>
+            </div>
 
-    <h1>WYBIERZ MECZ, KTÓRY CHCESZ USUNĄC</h1>
-    <form th:action="@{/edit?action=REMOVE_MATCH}" id="remove" method="post">
-        <b>Wybierz mecz</b>
-        <label>
-            <select name="matchID" form="remove">
-                <option value="NULL" selected>Mecz...</option>
+            <select class="custom-select" name="matchID" form="edit" id="inputGroupSelect02" required>
+                <option value="" selected="selected">Mecz...</option>
                 <option th:each="match:${listToEdit}" th:value="${match.id}" th:text="${match}">
                 </option>
             </select>
-        </label>
+        </div>
+        <div class="input-group mb-3" style="width: 500px;margin: auto">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect03">Wybierz</label>
+            </div>
+
+            <select class="custom-select" name="matchID" form="edit" id="inputGroupSelect03" required>
+                <option value="" selected="selected">Wynik...</option>
+                <option th:each="score:${scoreList}" th:value="${score}" th:text="${score}">
+                </option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Dodaj wynik</button>
+    </form>
+    <br>
+<div></div>
+<div></div>
+<div></div>
+    <h4 style="color: aliceblue">WYBIERZ MECZ, KTÓRY CHCESZ USUNĄC</h4>
+    <form th:action="@{/edit?action=REMOVE_MATCH}" id="remove" method="post">
+        <div class="input-group mb-3" >
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Wybierz</label>
+            </div>
+
+            <select class="custom-select" name="matchID" form="remove" id="inputGroupSelect01" required>
+                <option value="" selected="selected">Mecz...</option>
+                <option th:each="match:${listToEdit}" th:value="${match.id}" th:text="${match}">
+                </option>
+            </select>
+        </div>
         <button type="submit" class="btn btn-primary">Usuń mecz z bazy</button>
     </form>
 </div>
-
-<br>
 </body>
 </html>

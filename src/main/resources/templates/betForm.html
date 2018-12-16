@@ -5,45 +5,54 @@
     <title>Form</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <style>
-        body {
-            background: dimgrey;
-        }
-    </style>
 </head>
-<body>
+<body background="https://layout.eurosport.com/i/v8/match/backgrounds/large/background_v8_s22.jpg">
 <div></div>
-<div></div>
-<div class="container">
-    <h1>WYBIERZ MECZ, KTÓRY CHCESZ OBSTAWIC</h1>
+<div style="margin: auto ;width: 500px">
+    <h1 style="margin: auto;color: aliceblue">TWÓJ ZAKŁAD</h1>
 
     <form th:action="@{/edit?action=SAVE_BET}" id="bet" method="post">
-        <b>Wybierz mecz</b>
-        <label>
-            <select name="matchID" form="bet" >
-                <option selected>Mecz....</option>
-                <option th:value="${match.id}" th:each="match:${listToBet}" th:text="${match}">
+        <div class="input-group mb-3" style="width: 500px">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect02">Wybierz</label>
+            </div>
+
+            <select class="custom-select" name="matchID" form="bet" id="inputGroupSelect02" required>
+                <option value="" selected="selected">Mecz...</option>
+                <option th:each="match:${listToBet}" th:value="${match.id}" th:text="${match}">
                 </option>
             </select>
-        </label>
-        <b>Obstaw wynik</b>
-        <label>
-            <select name="score" form="bet">
-                <option selected>Wynik....</option>
+        </div>
+        <div class="input-group mb-3" style="width: 500px">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect03">Wybierz</label>
+            </div>
+
+            <select class="custom-select" name="score" form="bet" id="inputGroupSelect03" required>
+                <option value="" selected="selected">Wynik...</option>
                 <option th:each="score:${scoreList}" th:value="${score}" th:text="${score}">
                 </option>
             </select>
-        </label>
-        <label>
-            <select name="betMoney" form="bet">
-                <option selected>Ile chcesz obstawić...</option>
+        </div>
+        <div class="input-group mb-3" style="width: 500px">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect04">Wybierz</label>
+            </div>
+            <select class="custom-select" name="betMoney" form="bet" id="inputGroupSelect04" required>
+                <option value="" selected="selected">Ile chcesz obstawić...</option>
                 <option value="100" >100</option>
                 <option value="200" >200</option>
                 <option value="300" >300</option>
                 <option value="400" >400</option>
+                <option value="400" >500</option>
+                <option value="400" >600</option>
+                <option value="400" >700</option>
+                <option value="400" >800</option>
+                <option value="400" >900</option>
+                <option value="400" >1000</option>
             </select>
-        </label>
-        <button type="submit" class="btn btn-primary">Obstaw wynik</button>
+        </div>
+        <button type="submit" class="btn btn-primary">Dodaj wynik</button>
     </form>
 </div>
 </body>

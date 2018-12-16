@@ -22,6 +22,7 @@ public class HomeController {
     @GetMapping("/")
     public String home(Model model, @RequestParam(required = false, defaultValue = "HOME") Action action) {
         List<Match> lista;
+        List<Match> lista2;
         List<Bet> listaZakladow;
         List<String> scoreList = Arrays.asList("Wygrana gospodarzy", "Wygrana gości", "Remis");
         switch (action) {
@@ -38,9 +39,10 @@ public class HomeController {
                 model.addAttribute("listW", lista);
                 return "listWScores";
             case EDIT_MATCHES:
-                lista = matchRepository.findAll();
+                lista2 = matchRepository.findIfOutcomeIsNull();
                 model.addAttribute("scoreList", scoreList);
-                model.addAttribute("listToEdit", lista);
+                model.addAttribute("listToEdit", lista2);
+
                 return "matchEditForm";
             case PLACE_BET:
                 List<Match> listaWOutcome = matchRepository.findIfOutcomeIsNull();
@@ -58,7 +60,7 @@ public class HomeController {
                         match2 = match1.get();
                         if (match2.getOutcome() != null) {
                             if (bet.getOutcome().equals(match2.getOutcome())) {
-                                bet.setActualOutcome("Wygrana!!! " + 3 * bet.getMoney());
+                                bet.setActualOutcome("Wygrana!!! " + 3 * bet.getMoney() + "zł");
                                 betRepository.save(bet);
                             } else if (!bet.getOutcome().equals(match2.getOutcome())) {
                                 bet.setActualOutcome("Przegrana... ");
@@ -93,16 +95,26 @@ public class HomeController {
                 Optional<Match> matchOptional = matchRepository.findById(matchID);
                 if (matchOptional.isPresent()) {
                     Match matchReal = matchOptional.get();
-                    matchReal.setOutcome(score);
-                    matchRepository.save(matchReal);
-                    System.out.println("Uaktualniono wynik meczu");
-                    return "redirect:/";
+                    if (matchReal.getOutcome() == null) {
+                        matchReal.setOutcome(score);
+                        matchRepository.save(matchReal);
+                        System.out.println("Uaktualniono wynik meczu");
+                    } else {
+                        System.out.println("Ten mecz już się rozstrzygnął");
+                    }
                 }
                 return "redirect:/";
             case REMOVE_MATCH:
-                if (matchRepository.findById(matchID).isPresent()) {
-                    matchRepository.deleteById(matchID);
-                    System.out.println("Mecz został poprawnie usunięty");
+                Optional<Match> optMatch = matchRepository.findById(matchID);
+                List<Bet> optBetList = betRepository.findByMatchId(matchID);
+                if (optMatch.isPresent()) {
+                    Match remMatch = optMatch.get();
+                    if (remMatch.getOutcome()==null&& optBetList.isEmpty()) {
+                        matchRepository.deleteById(remMatch.getId());
+                        System.out.println("Mecz został poprawnie usunięty");
+                    } else {
+                        System.out.println("Nie można usunąć z bazy meczu, który został rozstrzygnięty\nlub na który ktoś już postawił");
+                    }
                 }
                 return "redirect:/";
             case SAVE_BET:
@@ -117,8 +129,6 @@ public class HomeController {
                 } else {
                     System.out.println("Nie udało się zapisać zakładu");
                 }
-                return "redirect:/";
-
         }
         return "redirect:/";
     }

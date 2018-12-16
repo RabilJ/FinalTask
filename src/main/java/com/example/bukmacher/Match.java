@@ -73,6 +73,6 @@ private  List<Bet>bets;
 
     @Override
     public String toString() {
-        return id+". "+gospodarze+"-"+goscie+" "+date;
+        return gospodarze+"-"+goscie+" "+date;
     }
 }

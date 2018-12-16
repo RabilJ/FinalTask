@@ -5,24 +5,20 @@
     <title>Home</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <style>
-        body{
-            background: dimgrey;
-        }
-    </style>
+
 </head>
-<body>
+<body background="https://layout.eurosport.com/i/v8/match/backgrounds/large/background_v8_s22.jpg">
 
 <div class="container" th:width="400">
     <a th:href="@{/?action=HOME}" class="btn btn-primary">Strona główna</a>
     <table class="table table-hover table-dark">
-        <thead>
+        <thead class="thead-light">
         <tr>
-            <th scope="col">ID</th>
-            <th scope="col">GOSPODARZE</th>
-            <th scope="col">GOSCIE</th>
-            <th scope="col">DATA</th>
-            <th scope="col">
+            <th scope="col" style="margin: auto">ID</th>
+            <th scope="col" style="margin: auto">GOSPODARZE</th>
+            <th scope="col" style="margin: auto">GOSCIE</th>
+            <th scope="col" style="margin: auto">DATA</th>
+            <th scope="col" style="margin: auto">
                 <a th:href="@{/?action=CHECK_SCORE}" th:text="WYNIK">
                     WYNIK
                 </a>
@@ -31,11 +27,11 @@
         </thead>
         <tbody>
         <tr th:each="match:${listWO}">
-            <th scope="row" th:text="${match.id}">1</th>
-            <th scope="row" th:text="${match.gospodarze}">2</th>
-            <th scope="row" th:text="${match.goscie}">3</th>
-            <th scope="row" th:text="${match.date}">4</th>
-            <th scope="row" th:text="--"></th>
+            <th scope="row" style="margin: auto" th:text="${match.id}">1</th>
+            <th scope="row" style="margin: auto" th:text="${match.gospodarze}">2</th>
+            <th scope="row" style="margin: auto" th:text="${match.goscie}">3</th>
+            <th scope="row" style="margin: auto" th:text="${match.date}">4</th>
+            <th scope="row" style="margin: auto" th:text="--"></th>
         </tr>
         </tbody>
     </table>
