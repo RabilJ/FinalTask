@@ -10,7 +10,7 @@
 <body background="https://layout.eurosport.com/i/v8/match/backgrounds/large/background_v8_s22.jpg">
 
 <div class="container" th:width="400">
-    <a th:href="@{/?action=EDIT_MATCHES}" class="btn btn-primary">Edytuj listę</a>
+    <a th:href="@{/match?action=EDIT_MATCHES}" class="btn btn-primary">Edytuj listę</a>
     <a th:href="@{/?action=HOME}" class="btn btn-primary">Strona główna</a>
     <table class="table table-hover table-dark">
         <thead class="thead-light">
@@ -19,8 +19,9 @@
             <th scope="col" style="margin: auto">GOSPODARZE</th>
             <th scope="col" style="margin: auto">GOSCIE</th>
             <th scope="col" style="margin: auto">DATA</th>
+            <th scope="col" style="text-align: center">KURS</th>
             <th scope="col" style="margin: auto">
-                <a th:href="@{/?action=ALL_MATCHES}" >
+                <a th:href="@{/match?action=ALL_MATCHES}" >
                     UKRYJ
                 </a>
             </th>
@@ -28,12 +29,13 @@
         </thead>
         <tbody>
         <tr th:each="matchWS:${listW}">
-            <th scope="row" style="margin: auto" th:text="${matchWS.id}">1</th>
-            <th scope="row" style="margin: auto" th:text="${matchWS.gospodarze}">2</th>
-            <th scope="row" style="margin: auto" th:text="${matchWS.goscie}">3</th>
-            <th scope="row" style="margin: auto" th:text="${matchWS.date}">4</th>
-            <th scope="row" style="margin: auto" th:if="${matchWS.outcome!=null}"><a th:text="${matchWS.outcome}"></a> </th>
-            <th scope="row" style="margin: auto" th:if="${matchWS.outcome==null}">
+            <th scope="row" style="text-align: center" th:text="${matchWS.id}">1</th>
+            <th scope="row" style="text-align: center" th:text="${matchWS.gospodarze}">2</th>
+            <th scope="row" style="text-align: center" th:text="${matchWS.goscie}">3</th>
+            <th scope="row" style="text-align: center" th:text="${matchWS.date}">4</th>
+            <th scope="row" style="text-align: center" th:text="${matchWS.rate}">4</th>
+            <th scope="row" style="text-align: center" th:if="${matchWS.outcome!=null}"><a th:text="${matchWS.outcome}"></a> </th>
+            <th scope="row" style="text-align: center" th:if="${matchWS.outcome==null}">
                 <a th:text="--">--</a>
             </th>
         </tr>

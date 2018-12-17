@@ -16,11 +16,11 @@
     <h4>Witaj na stronie startowej.</h4>
     <hr class="my-4">
     <p>Dostępne opcje:</p>
-    <a th:href="@{/?action=ALL_MATCHES}" class="btn btn-primary">Wszystkie mecze</a>
+    <a th:href="@{/match?action=ALL_MATCHES}" class="btn btn-primary">Wszystkie mecze</a>
 
-    <a th:href="@{/?action=NEW_MATCH}" class="btn btn-primary">Dodaj mecz</a>
-    <a th:href="@{/?action=PLACE_BET}" class="btn btn-primary">Zagraj</a>
-    <a th:href="@{/?action=ALL_BETS}" class="btn btn-primary">Wszystkie zakłady</a>
+    <a th:href="@{/match?action=NEW_MATCH}" class="btn btn-primary">Dodaj mecz</a>
+    <a th:href="@{/bet?action=PLACE_BET}" class="btn btn-primary">Zagraj</a>
+    <a th:href="@{/bet?action=ALL_BETS}" class="btn btn-primary">Wszystkie zakłady</a>
 
 
 </div>

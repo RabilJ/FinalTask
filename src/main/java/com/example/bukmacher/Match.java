@@ -19,8 +19,17 @@ public class Match {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
     private String outcome;
+    private Double rate;
 @OneToMany(mappedBy = "match")
 private  List<Bet>bets;
+
+    public Double getRate() {
+        return rate;
+    }
+
+    public void setRate(Double rate) {
+        this.rate = rate;
+    }
 
     public Long getId() {
         return id;
