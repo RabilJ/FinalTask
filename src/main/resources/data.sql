@@ -25,7 +25,9 @@ INSERT INTO match(gospodarze, goscie, id, date, outcome) VALUES ('Nimes', 'Nante
 INSERT INTO match(gospodarze, goscie, id, date, outcome) VALUES ('Strasbourg', 'Paris SG', 24, '2018-12-06', null);
 INSERT INTO match(gospodarze, goscie, id, date, outcome) VALUES ('Rennes', 'Dijon', 25, '2018-12-08', null);
 INSERT INTO match(gospodarze, goscie, id, date, outcome) VALUES ('Lille', 'Reims', 26, '2018-12-17', null);
-INSERT INTO bet(money, outcome, actual_outcome, match_id) VALUES (100, 'Wygrana gospodarzy', null, 1);
-INSERT INTO bet(money, outcome, actual_outcome, match_id) VALUES (100, 'Wygrana gospodarzy', null, 2);
+INSERT INTO bet(money, outcome, actual_outcome, match_id) VALUES (300, 'Wygrana gospodarzy', null, 1);
+INSERT INTO bet(money, outcome, actual_outcome, match_id) VALUES (1000, 'Wygrana gospodarzy', null, 2);
+INSERT INTO bet(money, outcome, actual_outcome, match_id) VALUES (400, 'Wygrana gospodarzy', null, 2);
+INSERT INTO bet(money, outcome, actual_outcome, match_id) VALUES (500, 'Wygrana gospodarzy', null, 2);
 
 

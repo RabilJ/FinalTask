@@ -9,8 +9,8 @@ import java.util.List;
 @Repository
 public interface BetRepository extends JpaRepository<Bet,Long> {
 
-    @Query(value="SELECT * FROM BET ORDER BY MATCH_ID ",nativeQuery=true)
-    List<Bet> orderByNumberOfBets();
+    @Query(value="SELECT * FROM BET order by MATCH_ID",nativeQuery=true)
+    List<Bet> orderByMatchId();
 
     List<Bet>findByMatchId(Long match_id);
 }

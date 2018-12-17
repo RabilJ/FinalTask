@@ -32,20 +32,24 @@ public class HomeController {
                 return "form";
             case ALL_MATCHES:
                 lista = matchRepository.findAll();
+                Collections.sort(lista,new BetsComparator());
                 model.addAttribute("listWO", lista);
                 return "listWOScores";
             case CHECK_SCORE:
                 lista = matchRepository.findAll();
+                Collections.sort(lista,new BetsComparator());
                 model.addAttribute("listW", lista);
                 return "listWScores";
             case EDIT_MATCHES:
                 lista2 = matchRepository.findIfOutcomeIsNull();
+                Collections.sort(lista2,new BetsComparator());
                 model.addAttribute("scoreList", scoreList);
                 model.addAttribute("listToEdit", lista2);
 
                 return "matchEditForm";
             case PLACE_BET:
                 List<Match> listaWOutcome = matchRepository.findIfOutcomeIsNull();
+                Collections.sort(listaWOutcome,new BetsComparator());
                 model.addAttribute("scoreList", scoreList);
                 model.addAttribute("listToBet", listaWOutcome);
                 return "betForm";
@@ -69,8 +73,9 @@ public class HomeController {
                         }
                     }
                 }
-                listaZakladow = betRepository.orderByNumberOfBets();
+                listaZakladow = betRepository.orderByMatchId();
                 model.addAttribute("betList", listaZakladow);
+
                 return "betList";
             case HOME:
                 break;
