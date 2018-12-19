@@ -24,7 +24,7 @@ public class BetController {
     @GetMapping("/bets")
     public String allBets(Model model) {
 
-        List<Bet> listaZakladow = betRepository.findAll();
+        List<Bet> listaZakladow = betRepository.orderByMatchId();
         Optional<Match> match1;
         Match match2;
         for (Bet bet : listaZakladow) {
@@ -42,7 +42,6 @@ public class BetController {
                 }
             }
         }
-        listaZakladow = betRepository.orderByMatchId();
         model.addAttribute("betList", listaZakladow);
         return "betList";
     }
@@ -51,9 +50,8 @@ public class BetController {
     public String bets(Model model) {
         List<String> scoreList = Arrays.asList("Wygrana gospodarzy", "Wygrana gości", "Remis");
         List<Match> listaWOutcome = matchRepository.findIfOutcomeIsNull();
-        Method.compareALl(listaWOutcome);
         model.addAttribute("scoreList", scoreList);
-        model.addAttribute("listToBet", listaWOutcome);
+        model.addAttribute("listToBet", Method.compareALl(listaWOutcome));
         return "betForm";
     }
 
@@ -62,10 +60,9 @@ public class BetController {
     String edit(@RequestParam(required = false, defaultValue = "1") Long matchID,
                 @RequestParam(required = false, defaultValue = "Wygrana gospodarzy") String score, @RequestParam(required = false, defaultValue = "100") Integer betMoney) {
                 Bet bet = new Bet();
-                if (betMoney != null && score != null) {
                     bet.setMoney(betMoney);
                     bet.setOutcome(score);
-                    if (matchRepository.findById(matchID).isPresent())
+                    if (matchRepository.findById(matchID).isPresent()){
                         bet.setMatch(matchRepository.findById(matchID).get());
                     betRepository.save(bet);
                     System.out.println("Zakład w bazie");
