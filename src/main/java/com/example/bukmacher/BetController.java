@@ -31,21 +31,14 @@ public class BetController {
             match1 = matchRepository.findById(bet.getMatch().getId());
             if (match1.isPresent()) {
                 match2 = match1.get();
-                if (match2.getOutcome() != null) {
-                    if (bet.getOutcome().equals(match2.getOutcome())) {
-                        bet.setActualOutcome("Wygrana!!! " + (bet.getMoney() * match2.getRate()) + "zł");
-                        betRepository.save(bet);
-                    } else if (!bet.getOutcome().equals(match2.getOutcome())) {
-                        bet.setActualOutcome("Przegrana... ");
-                        betRepository.save(bet);
-                    }
-                }
+                Method.updateList(bet, match2);
+                betRepository.save(bet);
             }
         }
+
         model.addAttribute("betList", listaZakladow);
         return "betList";
     }
-
     @GetMapping("/betCreate")
     public String bets(Model model) {
         List<String> scoreList = Arrays.asList("Wygrana gospodarzy", "Wygrana gości", "Remis");

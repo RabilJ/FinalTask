@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 
 @Entity
@@ -83,5 +84,24 @@ private  List<Bet>bets;
     @Override
     public String toString() {
         return gospodarze+"-"+goscie+" "+date;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Match match = (Match) o;
+        return Objects.equals(id, match.id) &&
+                Objects.equals(gospodarze, match.gospodarze) &&
+                Objects.equals(goscie, match.goscie) &&
+                Objects.equals(date, match.date) &&
+                Objects.equals(outcome, match.outcome) &&
+                Objects.equals(rate, match.rate) &&
+                Objects.equals(bets, match.bets);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, gospodarze, goscie, date, outcome, rate, bets);
     }
 }

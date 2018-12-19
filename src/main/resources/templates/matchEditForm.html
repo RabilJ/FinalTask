@@ -28,7 +28,7 @@
                 <label class="input-group-text" for="inputGroupSelect03">Wybierz</label>
             </div>
 
-            <select class="custom-select" name="matchID" form="edit" id="inputGroupSelect03" required>
+            <select class="custom-select" name="score" form="edit" id="inputGroupSelect03" required>
                 <option value="" selected="selected">Wynik...</option>
                 <option th:each="score:${scoreList}" th:value="${score}" th:text="${score}">
                 </option>

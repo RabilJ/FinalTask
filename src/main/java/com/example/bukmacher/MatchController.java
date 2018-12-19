@@ -14,19 +14,18 @@ import java.util.Optional;
 public class MatchController {
 
     private MatchRepository matchRepository;
-    private BetRepository betRepository;
 
 
-    public MatchController(MatchRepository matchRepository, BetRepository betRepository) {
+    public MatchController(MatchRepository matchRepository) {
         this.matchRepository = matchRepository;
-        this.betRepository = betRepository;
     }
 
 
-    private List<String> scoreList = Arrays.asList("Wygrana gospodarzy", "Wygrana gości", "Remis");
+
 
     @GetMapping("/matchEdit")
     public String edit(Model model) {
+        List<String> scoreList = Arrays.asList("Wygrana gospodarzy", "Wygrana gości", "Remis");
         List<Match> lista2 = matchRepository.findIfOutcomeAndBetsIsNull();
         List<Match> lista1 = matchRepository.findIfOutcomeIsNull();
         model.addAttribute("scoreList", scoreList);
@@ -60,32 +59,22 @@ public class MatchController {
     String remove(@RequestParam(required = false, defaultValue = "1") Long matchID) {
 
         Optional<Match> optMatch = matchRepository.findById(matchID);
-        List<Bet> optBetList = betRepository.findByMatchId(matchID);
         if (optMatch.isPresent()) {
             Match remMatch = optMatch.get();
-            if (remMatch.getOutcome() == null && optBetList.isEmpty()) {
                 matchRepository.deleteById(remMatch.getId());
                 System.out.println("Mecz został poprawnie usunięty");
-            } else {
-                System.out.println("Nie można usunąć z bazy meczu, który został rozstrzygnięty\nlub na który ktoś już postawił");
-            }
         }
         return "redirect:/";
     }
 
     @PostMapping("/updateScore")
     String update(@RequestParam(required = false, defaultValue = "1") Long matchID,
-                  @RequestParam(required = false, defaultValue = "Wygrana gospodarzy") String score) {
+                  @RequestParam(required = false) String score) {
         Optional<Match> matchOptional = matchRepository.findById(matchID);
         if (matchOptional.isPresent()) {
             Match matchReal = matchOptional.get();
-            if (matchReal.getOutcome() == null) {
-                matchReal.setOutcome(score);
-                matchRepository.save(matchReal);
-                System.out.println("Uaktualniono wynik meczu");
-            } else {
-                System.out.println("Ten mecz już się rozstrzygnął");
-            }
+            Method.updateScore(matchReal,score);
+            matchRepository.save(matchReal);
         }
         return "redirect:/";
     }

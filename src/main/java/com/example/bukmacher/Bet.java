@@ -1,6 +1,7 @@
 package com.example.bukmacher;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class Bet {
@@ -51,5 +52,22 @@ public class Bet {
 
     public void setMatch(Match match) {
         this.match = match;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Bet bet = (Bet) o;
+        return Objects.equals(id, bet.id) &&
+                Objects.equals(money, bet.money) &&
+                Objects.equals(outcome, bet.outcome) &&
+                Objects.equals(actualOutcome, bet.actualOutcome) &&
+                Objects.equals(match, bet.match);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, money, outcome, actualOutcome, match);
     }
 }
