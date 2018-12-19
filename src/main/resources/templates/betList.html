@@ -13,21 +13,21 @@
     <table class="table table-hover table-dark">
         <thead class="thead-light">
         <tr>
-            <th scope="col" style="margin: auto">ID ZAKŁADU</th>
-            <th scope="col" style="margin: auto">MECZ</th>
-            <th scope="col" style="margin: auto">OBSTAWIONY WYNIK</th>
-            <th scope="col" style="margin: auto">POSTAWIONE PIENIĄDZE</th>
-            <th scope="col" style="margin: auto">STATUS</th>
+            <th scope="col" style="text-align: center">ID ZAKŁADU</th>
+            <th scope="col" style="text-align: center">MECZ</th>
+            <th scope="col" style="text-align: center">OBSTAWIONY WYNIK</th>
+            <th scope="col" style="text-align: center">POSTAWIONE PIENIĄDZE</th>
+            <th scope="col" style="text-align: center">STATUS</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="bet:${betList}">
-            <th scope="row" style="margin: auto" th:text="${bet.id}">1</th>
-            <th scope="row" style="margin: auto" th:text="${bet.match}">2</th>
-            <th scope="row" style="margin: auto" th:text="${bet.outcome}">3</th>
-            <th scope="row" style="margin: auto" th:text="${bet.money}+zł">4</th>
-            <th scope="row" style="margin: auto" th:if="${bet.actualOutcome!=null}"><a th:text="${bet.actualOutcome}"></a> </th>
-            <th scope="row" style="margin: auto" th:if="${bet.actualOutcome==null}"><a th:text="|Mecz nierozstrzygnięty|">--</a></th>
+            <th scope="row" style="text-align: center" th:text="${bet.id}">1</th>
+            <th scope="row" style="text-align: center" th:text="${bet.match}">2</th>
+            <th scope="row" style="text-align: center" th:text="${bet.outcome}">3</th>
+            <th scope="row" style="text-align: center" th:text="${bet.money}+zł">4</th>
+            <th scope="row" style="text-align: center" th:if="${bet.actualOutcome!=null}"><a th:text="${bet.actualOutcome}"></a> </th>
+            <th scope="row" style="text-align: center" th:if="${bet.actualOutcome==null}"><a th:text="|Mecz nierozstrzygnięty|">--</a></th>
         </tr>
         </tbody>
     </table>
