@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,81 +16,85 @@ public class MatchController {
     private MatchRepository matchRepository;
     private BetRepository betRepository;
 
+
     public MatchController(MatchRepository matchRepository, BetRepository betRepository) {
         this.matchRepository = matchRepository;
         this.betRepository = betRepository;
     }
 
 
-    @GetMapping("/match")
-    public String matchEdit(Model model, @RequestParam(required = false, defaultValue = "HOME") Action action) {
-        List<Match> lista;
-        List<Match> lista2;
-        List<String> scoreList = Arrays.asList("Wygrana gospodarzy", "Wygrana gości", "Remis");
-        switch (action) {
-            case NEW_MATCH:
-                Match match = new Match();
-                model.addAttribute("newMatch", match);
-                return "form";
-            case ALL_MATCHES:
-                lista = matchRepository.findAll();
-                Collections.sort(lista, new BetsComparator());
-                model.addAttribute("listWO", lista);
-                return "listWOScores";
-            case CHECK_SCORE:
-                lista = matchRepository.findAll();
-                Collections.sort(lista, new BetsComparator());
-                model.addAttribute("listW", lista);
-                return "listWScores";
-            case EDIT_MATCHES:
-                lista2 = matchRepository.findIfOutcomeAndBetsIsNull();
-                Collections.sort(lista2, new BetsComparator());
-                model.addAttribute("scoreList", scoreList);
-                model.addAttribute("listToEdit", lista2);
-                return "matchEditForm";
-        }
-        return "home";
+    private List<String> scoreList = Arrays.asList("Wygrana gospodarzy", "Wygrana gości", "Remis");
+
+    @GetMapping("/matchEdit")
+    public String edit(Model model) {
+        List<Match> lista2 = matchRepository.findIfOutcomeAndBetsIsNull();
+        List<Match> lista1 = matchRepository.findIfOutcomeIsNull();
+        model.addAttribute("scoreList", scoreList);
+        model.addAttribute("listToRemove", Method.compareALl(lista2));
+        model.addAttribute("listToUpdate", lista1);
+        return "matchEditForm";
     }
 
-    @PostMapping("/edit")
-    String edit(Match match, @RequestParam(required = false, defaultValue = "HOME") Action action, @RequestParam(required = false, defaultValue = "1") Long matchID,
-                @RequestParam(required = false, defaultValue = "Wygrana gospodarzy") String score) {
-        switch (action) {
-            case ADD_MATCH:
-                if (match.getDate() != null && match.getGospodarze() != null && match.getGoscie() != null && match.getRate() != null) {
-                    matchRepository.save(match);
-                    System.out.println("Mecz został dodany do naszej bazy");
-                } else {
-                    System.out.println("Nie udało się dodać meczu do bazy");
-                }
-                return "redirect:/";
-            case SAVE_SCORE:
-                Optional<Match> matchOptional = matchRepository.findById(matchID);
-                if (matchOptional.isPresent()) {
-                    Match matchReal = matchOptional.get();
-                    if (matchReal.getOutcome() == null) {
-                        matchReal.setOutcome(score);
-                        matchRepository.save(matchReal);
-                        System.out.println("Uaktualniono wynik meczu");
-                    } else {
-                        System.out.println("Ten mecz już się rozstrzygnął");
-                    }
-                }
-                return "redirect:/";
-            case REMOVE_MATCH:
-                Optional<Match> optMatch = matchRepository.findById(matchID);
-                List<Bet> optBetList = betRepository.findByMatchId(matchID);
-                if (optMatch.isPresent()) {
-                    Match remMatch = optMatch.get();
-                    if (remMatch.getOutcome() == null && optBetList.isEmpty()) {
-                        matchRepository.deleteById(remMatch.getId());
-                        System.out.println("Mecz został poprawnie usunięty");
-                    } else {
-                        System.out.println("Nie można usunąć z bazy meczu, który został rozstrzygnięty\nlub na który ktoś już postawił");
-                    }
-                }
+    @GetMapping("/checkScores")
+    public String scores(Model model) {
+        List<Match> lista3 = matchRepository.findAll();
+        model.addAttribute("listW", Method.compareALl(lista3));
+        return "listWScores";
+    }
 
+    @GetMapping("/allMatches")
+    public String all(Model model) {
+        List<Match> lista3 = matchRepository.findAll();
+        model.addAttribute("listWO", Method.compareALl(lista3));
+        return "listWOScores";
+    }
+
+    @GetMapping("/newMatch")
+    public String matchCreate(Model model) {
+        Match match = new Match();
+        model.addAttribute("newMatch", match);
+        return "form";
+    }
+
+    @PostMapping("/removeMatch")
+    String remove(@RequestParam(required = false, defaultValue = "1") Long matchID) {
+
+        Optional<Match> optMatch = matchRepository.findById(matchID);
+        List<Bet> optBetList = betRepository.findByMatchId(matchID);
+        if (optMatch.isPresent()) {
+            Match remMatch = optMatch.get();
+            if (remMatch.getOutcome() == null && optBetList.isEmpty()) {
+                matchRepository.deleteById(remMatch.getId());
+                System.out.println("Mecz został poprawnie usunięty");
+            } else {
+                System.out.println("Nie można usunąć z bazy meczu, który został rozstrzygnięty\nlub na który ktoś już postawił");
+            }
         }
         return "redirect:/";
+    }
+
+    @PostMapping("/updateScore")
+    String update(@RequestParam(required = false, defaultValue = "1") Long matchID,
+                  @RequestParam(required = false, defaultValue = "Wygrana gospodarzy") String score) {
+        Optional<Match> matchOptional = matchRepository.findById(matchID);
+        if (matchOptional.isPresent()) {
+            Match matchReal = matchOptional.get();
+            if (matchReal.getOutcome() == null) {
+                matchReal.setOutcome(score);
+                matchRepository.save(matchReal);
+                System.out.println("Uaktualniono wynik meczu");
+            } else {
+                System.out.println("Ten mecz już się rozstrzygnął");
+            }
         }
+        return "redirect:/";
+    }
+
+    @PostMapping("/saveMatch")
+    String save(Match match) {
+        matchRepository.save(match);
+        System.out.println("Mecz został dodany do naszej bazy");
+        return "redirect:/";
+
+    }
 }

@@ -15,7 +15,7 @@
 <div></div>
 <div class="mx-auto" style="width: 400px;">
 <div class="container">
-    <form th:object="${newMatch}" th:action="@{/edit?action=ADD_MATCH}" method="post">
+    <form th:object="${newMatch}" th:action="@{/saveMatch}" method="post">
         <div class="form-group">
 
             <input required type="text" class="form-control" th:field="*{gospodarze}" name="gospodarze"placeholder="Gospodarze">

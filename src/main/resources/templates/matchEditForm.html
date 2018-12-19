@@ -11,7 +11,7 @@
 
 <div style="width: 500px;margin: auto">
     <h4 style="color: aliceblue;">WYBIERZ MECZ, KTÓRY CHCESZ EDYTOWAĆ</h4>
-    <form th:action="@{/edit?action=SAVE_SCORE}" id="edit" method="post">
+    <form th:action="@{/updateScore}" id="edit" method="post">
         <div class="input-group mb-3" style="width: 500px;margin: auto">
             <div class="input-group-prepend">
                 <label class="input-group-text" for="inputGroupSelect02">Wybierz</label>
@@ -19,7 +19,7 @@
 
             <select class="custom-select" name="matchID" form="edit" id="inputGroupSelect02" required>
                 <option value="" selected="selected">Mecz...</option>
-                <option th:each="match:${listToEdit}" th:value="${match.id}" th:text="${match}">
+                <option th:each="match:${listToUpdate}" th:value="${match.id}" th:text="${match}">
                 </option>
             </select>
         </div>
@@ -41,7 +41,7 @@
 <div></div>
 <div></div>
     <h4 style="color: aliceblue">WYBIERZ MECZ, KTÓRY CHCESZ USUNĄĆ</h4>
-    <form th:action="@{/edit?action=REMOVE_MATCH}" id="remove" method="post">
+    <form th:action="@{/removeMatch}" id="remove" method="post">
         <div class="input-group mb-3" >
             <div class="input-group-prepend">
                 <label class="input-group-text" for="inputGroupSelect01">Wybierz</label>
@@ -49,7 +49,7 @@
 
             <select class="custom-select" name="matchID" form="remove" id="inputGroupSelect01" required>
                 <option value="" selected="selected">Mecz...</option>
-                <option th:each="match:${listToEdit}" th:value="${match.id}" th:text="${match}">
+                <option th:each="match:${listToRemove}" th:value="${match.id}" th:text="${match}">
                 </option>
             </select>
         </div>

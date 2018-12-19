@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Arrays;
-import java.util.Collections;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -21,53 +21,46 @@ public class BetController {
         this.betRepository = betRepository;
     }
 
-    @GetMapping("/bet")
-    public String bets(Model model, @RequestParam(required = false, defaultValue = "HOME") Action action) {
-        List<Bet> listaZakladow;
-        List<String> scoreList = Arrays.asList("Wygrana gospodarzy", "Wygrana gości", "Remis");
-        switch (action) {
+    @GetMapping("/bets")
+    public String allBets(Model model) {
 
-            case PLACE_BET:
-                List<Match> listaWOutcome = matchRepository.findIfOutcomeIsNull();
-                Collections.sort(listaWOutcome, new BetsComparator());
-                model.addAttribute("scoreList", scoreList);
-                model.addAttribute("listToBet", listaWOutcome);
-                return "betForm";
-
-            case ALL_BETS:
-                listaZakladow = betRepository.findAll();
-                Optional<Match> match1;
-                Match match2;
-                for (Bet bet : listaZakladow) {
-                    match1 = matchRepository.findById(bet.getMatch().getId());
-                    if (match1.isPresent()) {
-                        match2 = match1.get();
-                        if (match2.getOutcome() != null) {
-                            if (bet.getOutcome().equals(match2.getOutcome())) {
-                                bet.setActualOutcome("Wygrana!!! " + (bet.getMoney() * match2.getRate()) + "zł");
-                                betRepository.save(bet);
-                            } else if (!bet.getOutcome().equals(match2.getOutcome())) {
-                                bet.setActualOutcome("Przegrana... ");
-                                betRepository.save(bet);
-                            }
-                        }
+        List<Bet> listaZakladow = betRepository.findAll();
+        Optional<Match> match1;
+        Match match2;
+        for (Bet bet : listaZakladow) {
+            match1 = matchRepository.findById(bet.getMatch().getId());
+            if (match1.isPresent()) {
+                match2 = match1.get();
+                if (match2.getOutcome() != null) {
+                    if (bet.getOutcome().equals(match2.getOutcome())) {
+                        bet.setActualOutcome("Wygrana!!! " + (bet.getMoney() * match2.getRate()) + "zł");
+                        betRepository.save(bet);
+                    } else if (!bet.getOutcome().equals(match2.getOutcome())) {
+                        bet.setActualOutcome("Przegrana... ");
+                        betRepository.save(bet);
                     }
                 }
-                listaZakladow = betRepository.orderByMatchId();
-                model.addAttribute("betList", listaZakladow);
-                return "betList";
-            case HOME:
-                break;
+            }
         }
-        return "home";
+        listaZakladow = betRepository.orderByMatchId();
+        model.addAttribute("betList", listaZakladow);
+        return "betList";
     }
 
-    @PostMapping("/betedit")
-    String edit(@RequestParam(required = false, defaultValue = "HOME") Action action, @RequestParam(required = false, defaultValue = "1") Long matchID,
-                @RequestParam(required = false, defaultValue = "Wygrana gospodarzy") String score, @RequestParam(required = false, defaultValue = "100") Integer betMoney) {
+    @GetMapping("/betCreate")
+    public String bets(Model model) {
+        List<String> scoreList = Arrays.asList("Wygrana gospodarzy", "Wygrana gości", "Remis");
+        List<Match> listaWOutcome = matchRepository.findIfOutcomeIsNull();
+        Method.compareALl(listaWOutcome);
+        model.addAttribute("scoreList", scoreList);
+        model.addAttribute("listToBet", listaWOutcome);
+        return "betForm";
+    }
 
-        switch (action) {
-            case SAVE_BET:
+
+    @PostMapping("/betSave")
+    String edit(@RequestParam(required = false, defaultValue = "1") Long matchID,
+                @RequestParam(required = false, defaultValue = "Wygrana gospodarzy") String score, @RequestParam(required = false, defaultValue = "100") Integer betMoney) {
                 Bet bet = new Bet();
                 if (betMoney != null && score != null) {
                     bet.setMoney(betMoney);
@@ -79,7 +72,6 @@ public class BetController {
                 } else {
                     System.out.println("Nie udało się zapisać zakładu");
                 }
-        }
         return "redirect:/";
     }
 }

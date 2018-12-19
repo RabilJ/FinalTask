@@ -10,7 +10,7 @@
 <body background="https://layout.eurosport.com/i/v8/match/backgrounds/large/background_v8_s22.jpg">
 
 <div class="container" th:width="400">
-    <a th:href="@{/?action=HOME}" class="btn btn-primary">Strona główna</a>
+    <a th:href="@{/}" class="btn btn-primary">Strona główna</a>
     <table class="table table-hover table-dark">
         <thead class="thead-light">
         <tr>
@@ -20,7 +20,7 @@
             <th scope="col" style="text-align: center">DATA</th>
             <th scope="col" style="text-align: center">KURS</th>
             <th scope="col" style="text-align: center">
-                <a th:href="@{/match?action=CHECK_SCORE}" th:text="WYNIK">
+                <a th:href="@{/checkScores}" th:text="WYNIK">
                     WYNIK
                 </a>
             </th>
@@ -28,12 +28,18 @@
         </thead>
         <tbody>
         <tr th:each="match:${listWO}">
-            <th scope="row" style="text-align: center" th:text="${match.id}">1</th>
-            <th scope="row" style="text-align: center" th:text="${match.gospodarze}">2</th>
-            <th scope="row" style="text-align: center" th:text="${match.goscie}">3</th>
-            <th scope="row" style="text-align: center" th:text="${match.date}">4</th>
-            <th scope="row" style="text-align: center" th:text="${match.rate}">4</th>
-            <th scope="row" style="text-align: center" th:text="--"></th>
+            <th scope="row" style="text-align: center;background: aliceblue" th:if="${match==listWO.get(0)}"><a  style="color: black" th:text="${listWO.get(0).id}"></a></th>
+            <th scope="row" style="text-align: center;" th:if="${match!=listWO.get(0)}"><a  th:text="${match.id}"></a></th>
+            <th scope="row" style="text-align: center;background: aliceblue" th:if="${match==listWO.get(0)}"><a  style="color: black" th:text="${listWO.get(0).gospodarze}"></a></th>
+            <th scope="row" style="text-align: center;" th:if="${match!=listWO.get(0)}"><a  th:text="${match.gospodarze}"></a></th>
+            <th scope="row" style="text-align: center;background: aliceblue" th:if="${match==listWO.get(0)}"><a  style="color: black" th:text="${listWO.get(0).goscie}"></a></th>
+            <th scope="row" style="text-align: center;" th:if="${match!=listWO.get(0)}"><a  th:text="${match.goscie}"></a></th>
+            <th scope="row" style="text-align: center;background: aliceblue" th:if="${match==listWO.get(0)}"><a  style="color: black" th:text="${listWO.get(0).date}"></a></th>
+            <th scope="row" style="text-align: center;" th:if="${match!=listWO.get(0)}"><a  th:text="${match.date}"></a></th>
+            <th scope="row" style="text-align: center;background: aliceblue" th:if="${match==listWO.get(0)}"><a  style="color: black" th:text="${listWO.get(0).rate}"></a></th>
+            <th scope="row" style="text-align: center;" th:if="${match!=listWO.get(0)}"><a  th:text="${match.rate}"></a></th>
+            <th scope="row" style="text-align: center;background: aliceblue" th:if="${match==listWO.get(0)}"><a style="color: black" th:text="--"></a></th>
+            <th scope="row" style="text-align: center;" th:if="${match!=listWO.get(0)}"><a  th:text="--"></a></th>
         </tr>
         </tbody>
     </table>
