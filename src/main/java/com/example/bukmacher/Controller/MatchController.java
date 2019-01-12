@@ -1,5 +1,8 @@
-package com.example.bukmacher;
+package com.example.bukmacher.Controller;
 
+import com.example.bukmacher.Repository.MatchRepository;
+import com.example.bukmacher.ConfigAndService.Method;
+import com.example.bukmacher.Model.Match;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,10 +29,10 @@ public class MatchController {
     @GetMapping("/matchEdit")
     public String edit(Model model) {
         List<String> scoreList = Arrays.asList("Wygrana gospodarzy", "Wygrana gości", "Remis");
-        List<Match> lista2 = matchRepository.findIfOutcomeAndBetsIsNull();
         List<Match> lista1 = matchRepository.findIfOutcomeIsNull();
+        List<Match> lista2 = matchRepository.findIfOutcomeAndBetsIsNull();
         model.addAttribute("scoreList", scoreList);
-        model.addAttribute("listToRemove", Method.compareALl(lista2));
+        model.addAttribute("listToRemove", lista2);
         model.addAttribute("listToUpdate", lista1);
         return "matchEditForm";
     }

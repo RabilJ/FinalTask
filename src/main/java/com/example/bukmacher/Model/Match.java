@@ -1,7 +1,6 @@
-package com.example.bukmacher;
+package com.example.bukmacher.Model;
 
 
-import org.springframework.core.annotation.Order;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;

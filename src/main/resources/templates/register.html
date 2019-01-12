@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Logowanie</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body background="https://layout.eurosport.com/i/v8/match/backgrounds/large/background_v8_s22.jpg">
+<div class="container">
+<h2 style="color: aliceblue">Rejestracja</h2>
+<form th:action="@{/register}" method="post">
+
+    <input type="text" name="username" placeholder="Nazwa użytkownika"/> <br/>
+    <input type="password" name="password" placeholder="Hasło"/> <br/>
+    <input type="email" name="email" placeholder="E-mail"/> <br/>
+
+    <input type="submit" value="Zarejestruj"/> <br/>
+
+</form>
+    <a th:href="@{/}" class="btn btn-primary">Strona główna</a>
+</div>
+</body>
+</html>

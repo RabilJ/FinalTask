@@ -1,4 +1,4 @@
-package com.example.bukmacher;
+package com.example.bukmacher.Model;
 
 import javax.persistence.*;
 import java.util.Objects;

@@ -1,5 +1,10 @@
-package com.example.bukmacher;
+package com.example.bukmacher.Controller;
 
+import com.example.bukmacher.Repository.BetRepository;
+import com.example.bukmacher.Repository.MatchRepository;
+import com.example.bukmacher.ConfigAndService.Method;
+import com.example.bukmacher.Model.Bet;
+import com.example.bukmacher.Model.Match;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

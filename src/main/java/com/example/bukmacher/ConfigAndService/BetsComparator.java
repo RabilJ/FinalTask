@@ -1,4 +1,6 @@
-package com.example.bukmacher;
+package com.example.bukmacher.ConfigAndService;
+
+import com.example.bukmacher.Model.Match;
 
 import java.util.Comparator;
 

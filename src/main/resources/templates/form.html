@@ -18,7 +18,7 @@
     <form th:object="${newMatch}" th:action="@{/saveMatch}" method="post">
         <div class="form-group">
 
-            <input required type="text" class="form-control" th:field="*{gospodarze}" name="gospodarze"placeholder="Gospodarze">
+            <input required type="text" class="form-control" th:field="*{gospodarze}" name="gospodarze" placeholder="Gospodarze">
         </div>
         <div class="form-group">
             <input required type="text" class="form-control" th:field="*{goscie}" name="goscie" placeholder="Goscie">

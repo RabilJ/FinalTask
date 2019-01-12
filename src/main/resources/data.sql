@@ -29,5 +29,6 @@ INSERT INTO bet(money, outcome, actual_outcome, match_id) VALUES (300, 'Wygrana 
 INSERT INTO bet(money, outcome, actual_outcome, match_id) VALUES (1000, 'Wygrana gospodarzy', null, 2);
 INSERT INTO bet(money, outcome, actual_outcome, match_id) VALUES (400, 'Wygrana gospodarzy', null, 2);
 INSERT INTO bet(money, outcome, actual_outcome, match_id) VALUES (500, 'Wygrana gospodarzy', null, 2);
-
+INSERT INTO user (username, password,enabled) VALUES ('admin', '{noop}admin',true );
+INSERT INTO user_role (username, role) VALUES ('admin', 'ROLE_ADMIN');
 
