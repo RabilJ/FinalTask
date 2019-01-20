@@ -28,6 +28,7 @@ public class AsyncMailSender {
     }
     @Async
     public void sendEmailWithAttachment(String username,String to, String subject, String content, String attachmentName, File attachment){
+        logger.debug("Send e-mail[html '{}'] to '{}' with subject '{}'", content, to, subject);
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         try{
             String fromEmail = "ultrabot@interia.pl";
@@ -44,6 +45,7 @@ public class AsyncMailSender {
             }
             javaMailSender.send(mimeMessage);
             saveEmailToSendDir(mimeMessage);
+            logger.debug("Sent e-mail to User '{}'", to);
         } catch (Exception e) {
             logger.warn("E-mail could not be sent to User '{}'",username,e.getMessage());
         }
